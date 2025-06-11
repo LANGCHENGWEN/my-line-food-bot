@@ -1,0 +1,3 @@
+# 忽略 __pycache__ 資料夾
+__pycache__/
+handlers/__pycache__/
