@@ -1,5 +1,4 @@
 Flask==3.1.1
 line_bot_sdk==3.17.1
 pandas==2.3.0
-python-dotenv==1.0.1
-gunicorn==23.0.0 # <--- 部署到 Railway 必須要這個，它是一個 Web 伺服器
+python-dotenv==1.1.1
