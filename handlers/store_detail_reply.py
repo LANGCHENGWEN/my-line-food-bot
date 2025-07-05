@@ -1,5 +1,11 @@
 # store_detail_reply.py
-# 第五層: 回覆店家地址 / 電話 / 評價 (Flex Message)
+"""
+第五層流程：
+- 解析『店名 + (地址|電話|評價)』文字指令
+- 回覆對應欄位的店家詳細資訊 Flex Message
+- 若 CSV 無該店家，回覆友善文字提示
+"""
+# --- 匯入套件與 Logger ---
 import logging
 from typing import Dict, Optional
 
@@ -14,9 +20,9 @@ from handlers.data_loader import get_store_info_by_name
 
 logger = logging.getLogger(__name__)
 
+# --- 定義 build_store_detail_flex 函式，用於回覆店家地址 / 電話 / 評價 ---
 def build_store_detail_flex(
-    store_name: str, store_info: Dict[str, str]
-) -> FlexMessage:
+    store_name: str, store_info: Dict[str, str]) -> FlexMessage:
     """建立店家詳細資訊的 Flex Message。"""
     address = store_info.get("地址", "未知")
     phone = store_info.get("電話", "未知")
@@ -63,8 +69,12 @@ def build_store_detail_flex(
         contents=FlexContainer.from_dict(bubble)
     )
 
+# --- 對外 API : reply_store_detail ---
+# 判斷使用者文字結尾『的地址/電話/評價』→ 擷取店名 → 查資料
+# 若找到 → 回覆 Flex；若無 → 文字提示
 def reply_store_detail(user_text: str, event: MessageEvent, api: MessagingApi) -> None:
-    """回覆店家地址 / 電話 / 評價 (Flex Message)。"""
+    """根據文字指令回覆店家地址 / 電話 / 評價 (Flex Message)。"""
+    # 1. 解析指令
     if user_text.endswith("的地址"):
         store_name = user_text.replace("的地址", "").strip()
         field = "地址"
@@ -75,6 +85,7 @@ def reply_store_detail(user_text: str, event: MessageEvent, api: MessagingApi) -
         store_name = user_text.replace("的評價", "").strip()
         field = "評價"
 
+    # 2. 查詢資料
     store_info: Optional[dict] = get_store_info_by_name(store_name)
     if not store_info:
         api.reply_message(
@@ -86,6 +97,7 @@ def reply_store_detail(user_text: str, event: MessageEvent, api: MessagingApi) -
         logger.debug("找不到店家：%s", store_name)
         return
 
+    # 3. 回覆 Flex Message
     flex_msg = build_store_detail_flex(store_name, store_info)
     api.reply_message(
         ReplyMessageRequest(reply_token=event.reply_token, messages=[flex_msg])

@@ -1,10 +1,17 @@
-# welcome_flex_message
+# welcome_flex_message.py
+"""
+好友加入 Bot 時的歡迎訊息：
+- 建立簡易歡迎 Flex Bubble，提示使用關鍵字「美食推薦」。
+- 由 reply_welcome() 在 FollowEvent 觸發時呼叫。
+"""
+# --- 匯入套件 ---
 from linebot.v3.messaging import MessagingApi
 from linebot.v3.messaging.models import (
     FlexMessage, ReplyMessageRequest, FlexContainer
 )
 from linebot.v3.webhooks.models import FollowEvent
 
+# --- 定義 get_welcome_flex_message 函式，用於回覆歡迎訊息 ---
 def get_welcome_flex_message() -> dict:
     bubble = {
         "type": "bubble",
@@ -34,9 +41,14 @@ def get_welcome_flex_message() -> dict:
         contents=FlexContainer.from_dict(bubble)
     )
 
-
+# --- 對外 API : reply_welcome ---
 def reply_welcome(event: FollowEvent, messaging_api: MessagingApi) -> None:
-    """使用者第一次把 Bot 加為好友時的自動回覆。"""
+    """
+    使用者第一次把 Bot 加為好友時的自動回覆。
+    FollowEvent 觸發時調用：
+    - 取得 FlexMessage
+    - 使用 Reply API 回覆
+    """
     flex_msg = get_welcome_flex_message()
 
     messaging_api.reply_message(
