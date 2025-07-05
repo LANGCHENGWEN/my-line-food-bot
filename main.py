@@ -2,6 +2,7 @@
 # 主程式
 # Flask 與 WebhookHandler 初始化
 # 只在主程式設定 @handler.add() 裝飾器，把事件分派到 dispatcher.py 和 postback_handler.py
+import os
 import logging # 引入日誌模組，方便除錯與追蹤
 from flask import Flask, request, abort, jsonify # 建置 webhook 的 HTTP 伺服器
 
@@ -99,8 +100,11 @@ def on_postback(event):
 
 # --- 應用程式啟動點 (僅在直接執行 python main.py 時啟動) ---
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    port = int(os.getenv("PORT", 5000))  # 雲端會自動給 PORT
+    debug = os.getenv("DEBUG", "False").lower() == "true"
+    app.run(host="0.0.0.0", port=port, debug=debug)
     """
-    port=5000：應用程式將在 5000 端口上運行
-    debug=True：開啟除錯模式，當程式碼有變動時會自動重載，並提供更詳細的錯誤信息
+    port=5000：應用程式將在 5000 端口上運行。
+    debug=True：開啟除錯模式，當程式碼有變動時會自動重載，並提供更詳細的錯誤信息 (本機可自己測試)。
+    上傳到雲端時不設 DEBUG，就會關掉除錯模式。
     """

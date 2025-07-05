@@ -44,10 +44,11 @@ def setup_logging() -> None:
     root.addHandler(ch)
 
     # rotating file：記錄更完整的 DEBUG 資訊到檔案，可追蹤歷史
-    fh = RotatingFileHandler(LOG_FILE, maxBytes=1_000_000, backupCount=3)
-    fh.setLevel(logging.DEBUG)
-    fh.setFormatter(fmt)
-    root.addHandler(fh)
+    if os.getenv("ENABLE_FILE_LOG", "False").lower() == "true":
+        fh = RotatingFileHandler(LOG_FILE, maxBytes=1_000_000, backupCount=3)
+        fh.setLevel(logging.DEBUG)
+        fh.setFormatter(fmt)
+        root.addHandler(fh)
 
 setup_logging() # 呼叫函式以初始化 logging
 logger = logging.getLogger(__name__) # 供其他模組引用此檔案時使用的預設 logger
