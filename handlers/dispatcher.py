@@ -57,7 +57,7 @@ def dispatch_event(event: MessageEvent, messaging_api: MessagingApi) -> None:
     # 依優先順序進行事件分派
     try:
         # 1. 第五層 : 店家詳細資訊（地址/電話/評價）
-        if user_text.endswith("的地址") or user_text.endswith("的電話") or user_text.endswith("的評價"):
+        if user_text.endswith("的地址") or user_text.endswith("的電話") or user_text.endswith("的評論"):
             reply_store_detail(user_text, event, messaging_api)
             return
 

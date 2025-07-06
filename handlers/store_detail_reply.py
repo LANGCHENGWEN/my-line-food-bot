@@ -26,7 +26,7 @@ def build_store_detail_flex(
     """建立店家詳細資訊的 Flex Message。"""
     address = store_info.get("地址", "未知")
     phone = store_info.get("電話", "未知")
-    rating = store_info.get("評價", "未知")
+    rating = store_info.get("評論", "未知")
 
     bubble = {
         "type": "bubble",
@@ -56,7 +56,7 @@ def build_store_detail_flex(
                 },
                 {
                     "type": "text",
-                    "text": f"⭐ 評價：{rating}",
+                    "text": f"⭐ 評論：{rating}",
                     "wrap": True,
                     "size": "md"
                 },
@@ -82,8 +82,8 @@ def reply_store_detail(user_text: str, event: MessageEvent, api: MessagingApi) -
         store_name = user_text.replace("的電話", "").strip()
         field = "電話"
     else:
-        store_name = user_text.replace("的評價", "").strip()
-        field = "評價"
+        store_name = user_text.replace("的評論", "").strip()
+        field = "評論"
 
     # 2. 查詢資料
     store_info: Optional[dict] = get_store_info_by_name(store_name)

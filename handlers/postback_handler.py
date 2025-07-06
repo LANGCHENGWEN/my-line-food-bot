@@ -81,9 +81,10 @@ def _handle_share_shop(
     share_text = (
         f"🍽️推薦給你一家美食店！\n"
         f"店名：{store_info.get('店名', '無')}\n"
+        f"營業時間：{store_info.get('營業時間', '無')}\n"
         f"地址：{store_info.get('地址', '無')}\n"
         f"電話：{store_info.get('電話', '無')}\n"
-        f"評價：{store_info.get('評價', '無')}\n"
+        f"評論：{store_info.get('評論', '無')}\n"
         f"快去看看吧！🏃‍♀️"
     )
     _reply(messaging_api, event.reply_token, share_text)
