@@ -1,5 +1,10 @@
 __pycache__/
+fetch_data/__pycache__/
+fetch_data/TaichungEats.csv
+fetch_data/TaichungEats_reviews.csv
+food-types/
 handlers/__pycache__/
+image/
 my_env/
 .env
 main.log

@@ -7,6 +7,7 @@
 """
 # --- 匯入套件與 Logger ---
 import logging
+import pandas as pd
 from typing import Dict, Optional
 
 from linebot.v3.messaging import MessagingApi
@@ -26,7 +27,16 @@ def build_store_detail_flex(
     """建立店家詳細資訊的 Flex Message。"""
     address = store_info.get("地址", "未知")
     phone = store_info.get("電話", "未知")
-    rating = store_info.get("評論", "未知")
+
+    comments = store_info.get("評論", "") or ""
+    # 判斷評論型態，轉成純文字
+    if isinstance(comments, (list, pd.Series)):
+        comments = "\n\n".join(map(str, comments))
+    else:
+        comments = str(comments).strip()
+    preview_lines = comments.split("\n\n")[:2]  # 只取前兩則
+    # 因為 Flex Message 文字欄位要是字串，不能是 list，要把 preview_lines 用換行符號串接
+    preview_text = "\n".join(preview_lines)
 
     bubble = {
         "type": "bubble",
@@ -56,10 +66,10 @@ def build_store_detail_flex(
                 },
                 {
                     "type": "text",
-                    "text": f"⭐ 評論：{rating}",
+                    "text": f"💬 評論：{preview_text}",
                     "wrap": True,
                     "size": "md"
-                },
+                }
             ],
         },
     }

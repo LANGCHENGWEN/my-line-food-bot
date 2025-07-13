@@ -13,6 +13,7 @@ from linebot.v3.messaging import MessagingApi
 from linebot.v3.messaging.models import TextMessage, ReplyMessageRequest
 from linebot.v3.webhooks.models import MessageEvent, TextMessageContent
 
+from constants import FOOD_TYPES, REGIONS
 from handlers.menu_reply import reply_menu
 from handlers.category_reply import reply_categories
 from handlers.region_reply import reply_region_selector
@@ -20,15 +21,6 @@ from handlers.restaurant_carousel_reply import reply_food_by_type_and_region
 from handlers.store_detail_reply import reply_store_detail
 
 logger = logging.getLogger(__name__)
-
-# --- 常數：快速集中維護 ---
-FOOD_TYPES = [
-    "台式傳統早餐", "西式輕食早餐", "健康營養早餐", "異國風味早餐",
-    "必吃便當", "美味熱炒", "經典飯麵", "特色小吃",
-    "火鍋盛宴", "西式精選", "創意料理", "自助饗宴"
-]
-
-REGIONS = ["西區", "北區", "南屯區"]
 
 # --- 對外 API：dispatch_event() ---
 def dispatch_event(event: MessageEvent, messaging_api: MessagingApi) -> None:

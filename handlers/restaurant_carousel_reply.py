@@ -39,11 +39,13 @@ def create_flex_message_by_category_and_district(category: str, district: str):
         maps_q = urllib.parse.quote_plus(store_name if not address else f"{store_name} {address}")
         maps_url = f"https://www.google.com/maps/search/?api=1&query={maps_q}"
         
+        # 從資料中取出圖片網址，並確保它是一個乾淨的字串
+        image_url = str(row.get("圖片網址") or "").strip()
         bubble = {
             "type": "bubble",
             "hero": {
                 "type": "image",
-                "url": "https://i.postimg.cc/SQt91q6x/image.jpg",
+                "url": image_url,
                 "size": "full",
                 "aspectRatio": "20:13",
                 "aspectMode": "cover"

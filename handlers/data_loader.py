@@ -13,9 +13,9 @@ import pandas as pd
 logger = logging.getLogger(__name__)
 
 # 動態獲取專案根目錄的路徑
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # 構建出一個指向特定 CSV 檔案的完整、正確的絕對路徑
-CSV_FILE_PATH = os.path.join(PROJECT_ROOT, 'TaichungEats.csv')
+CSV_FILE_PATH = os.path.join(PROJECT_ROOT, '..', 'fetch_data', 'TaichungEats_reviews.csv')
 
 # --- 資料快取變數 ---
 # 全局變數用於存儲數據，避免每次查詢都重新讀取
@@ -27,6 +27,9 @@ def load_store_data():
     global _store_data
     if _store_data is None:
         try:
+            # 讀取 CSV；確保「評論」欄為字串型態
+            _store_data = pd.read_csv(CSV_FILE_PATH, encoding='utf-8', dtype={"評論": str})
+
             # 讀取 CSV；若編碼不同，可於此調整
             _store_data = pd.read_csv(CSV_FILE_PATH, encoding='utf-8')
 
@@ -77,8 +80,8 @@ def query_by_category_and_district(category: str, district: str) -> pd.DataFrame
         return pd.DataFrame()
     
     # 確保欄位存在
-    if "類型" not in _store_data.columns or "區域" not in _store_data.columns:
-        logger.error("CSV 缺少必要欄位（類型 或 區域）")
+    if "美食類型" not in _store_data.columns or "區域" not in _store_data.columns:
+        logger.error("CSV 缺少必要欄位（美食類型 或 區域）")
         return pd.DataFrame()
     
-    return _store_data[(_store_data["類型"] == category) & (_store_data["區域"] == district)]
+    return _store_data[(_store_data["美食類型"] == category) & (_store_data["區域"] == district)]
