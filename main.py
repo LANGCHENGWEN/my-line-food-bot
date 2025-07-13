@@ -98,6 +98,11 @@ def on_postback(event):
     """
     handle_postback_event(event, messaging_api)
 
+# 健康檢查：確認伺服器是否正常啟動並回應
+@app.route("/", methods=["GET"])
+def index():
+    return "LINE Bot is running.", 200
+
 # --- 應用程式啟動點 (僅在直接執行 python main.py 時啟動) ---
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))  # 雲端會自動給 PORT
