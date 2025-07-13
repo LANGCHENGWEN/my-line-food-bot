@@ -45,7 +45,7 @@
 ## 🔧 技術架構
 
 - 💻 後端框架 | Python + Flask
-- ☁️ 雲端部署 | Railway
+- ☁️ 雲端部署 | Render
 - 💬 LINE SDK | LINE Messaging API (v3)
 - 🌐 外部 API | Google Maps + Google Places API（店家搜尋與評論）
 - 🌍 翻譯功能 | Google Translate API（英文評論自動翻譯成中文）
@@ -67,10 +67,10 @@
 
 ```bash
 # 建立虛擬環境
-python -m venv venv
+python -m venv my_venv
 
 #（Windows）啟動虛擬環境 (Linux 或 macOS 用 source venv/bin/activate)
-venv\Scripts\activate
+my_venv\Scripts\activate
 
 # 安裝所有依賴套件
 pip install -r requirements.txt
@@ -91,11 +91,19 @@ GOOGLE_TRANSLATE_KEY=YOUR_GOOGLE_TRANSLATE_KEY
 python main.py
 ```
 
-### Railway 部署指令
+### Render 部署指令
 
 ```bash
-# 在 Railway 設定 start command：
+# 在 Render 網頁上新增 Web Service 時填入：
+
+# 📌 Build Command:
+pip install -r requirements.txt
+
+# 📌 Start Command:
 gunicorn main:app
+
+# 📌 Health Check Path:
+/
 ```
 
 ---
