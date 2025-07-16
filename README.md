@@ -4,6 +4,20 @@
 
 ---
 
+## 📹 LINE Bot Demo：美食推薦小幫手操作展示
+
+這段影片展示了 LINE Bot 的實際操作流程，包括：
+
+- 根據使用者選擇美食類型與區域，推薦店家美食
+- 顯示 Flex Message 卡片格式、店家資訊、美食評論
+- 整合 Google Maps 導航到該店
+
+🎬 點擊下方縮圖觀看影片：
+
+[![LINE Bot Demo 影片預覽](https://img.youtube.com/vi/zUHMCs9_erM/maxresdefault.jpg)](https://youtu.be/zUHMCs9_erM)
+
+---
+
 ## 📲 使用流程介紹
 
 ### 🧭 用戶完整互動流程
